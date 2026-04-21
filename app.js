@@ -23,7 +23,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 app.use(helmet());
 app.use(cors({
-  origin: 'https://herbal-cure-ii7hbxlht-herbal-cure.vercel.app',
+  origin: 'https://herbal-cure-fqv1b5qdz-herbal-cure.vercel.app',
   credentials: true
 }));
 app.disable('x-powered-by');
