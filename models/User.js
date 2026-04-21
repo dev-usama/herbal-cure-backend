@@ -11,4 +11,4 @@ const userSchema = new mongoose.Schema({
   phone: {type: Number, required: true}
 });
 
-module.exports = mongoose.model('User', userSchema, "herbalCureDB");
+module.exports = mongoose.model('User', userSchema);
