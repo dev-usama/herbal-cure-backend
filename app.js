@@ -23,7 +23,7 @@ var usersRouter = require('./routes/users');
 var app = express();
 app.use(helmet());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.url,
   credentials: true
 }));
 app.disable('x-powered-by');

@@ -9,6 +9,27 @@ router.get('/', verify, function (req, res, next) {
   res.send('respond with a resource');
 });
 
+router.get('/me', verify, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select('-password');
+    if (!user) return res.status(404).send("User not found");
+    
+    res.json({'user_id': user._id, 'name': user.name});
+  } catch (err) {
+    console.log(err)
+    res.status(500).send("Server error");
+  }
+});
+
+// LOGOUT USER
+router.post('/logout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'Strict'
+  }).send({ message: "Logged out successfully" });
+});
+
 // LOGIN USER
 router.post('/login', async (req, res) => {
   try {
@@ -24,7 +45,7 @@ router.post('/login', async (req, res) => {
     }
 
     const token = jwt.sign(
-      { _id: user._id },
+      { _id: user._id, name: user.name },
       process.env.TOKEN_SECRET,
       { expiresIn: '1h' }
     );
