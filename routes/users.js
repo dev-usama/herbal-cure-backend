@@ -13,8 +13,8 @@ router.get('/me', verify, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password');
     if (!user) return res.status(404).send("User not found");
-    
-    res.json({'user_id': user._id, 'name': user.name});
+
+    res.json({ 'user_id': user._id, 'name': user.name });
   } catch (err) {
     console.log(err)
     res.status(500).send("Server error");
@@ -33,7 +33,6 @@ router.post('/logout', (req, res) => {
 // LOGIN USER
 router.post('/login', async (req, res) => {
   try {
-    // 1. Find user by email
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
       return res.status(400).send("User not found");
@@ -55,7 +54,11 @@ router.post('/login', async (req, res) => {
       secure: true,
       sameSite: 'Strict',
       maxAge: 3600000
-    }).send({ message: "Login successful" });
+    }).send({
+      message: "Login successful", data: {
+        name: user.name
+      }
+    });
   } catch (err) {
     res.status(500).send("Error logging in");
   }
