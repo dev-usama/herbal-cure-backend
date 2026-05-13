@@ -9,7 +9,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 require('dotenv').config();
 
-mongoose.connect(process.env.mongoURI)
+mongoose.connect(process.env.mongoURI, {dbName: "herbalCureDB"})
   .then(() => {
     console.log('✅ Connected to MongoDB...');
   })
